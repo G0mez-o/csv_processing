@@ -3,7 +3,6 @@
 #include <sstream>
 #include <vector>
 #include <iostream>
-#define Filename "sample.csv"
 
 auto split(std::string& input,char delimiter)
 {
@@ -17,25 +16,24 @@ auto split(std::string& input,char delimiter)
 
 int main()
 {
-  int row = 0;
-  int column = 0;
-  std::ifstream ifs(Filename);
-  std::string line;
-  std::vector<double> save_data;
-  for (int i = 0; getline(ifs, line); i++, row++)
+  int row;
+  int column;
+  std::string line, filename;
+  std::cout << "Please input filename!!" << std::endl;
+  std::cin >> filename;
+  std::ifstream ifs(filename);
+  std::vector<std::vector<double>> data_base;
+  for (row = 0; getline(ifs, line); row++)
     {
+      std::vector<double> save_data;
       std::vector<std::string> strvec = split(line, ',');
-      for (int j=0; j<strvec.size(); j++, column++)
-	save_data.push_back(stold(strvec.at(j)));
+      for (column = 0; column < strvec.size(); column++)
+	save_data.push_back(stold(strvec.at(column)));
+      data_base.push_back(save_data);
     }
-  column = column / row;
-  // for(int i = 0; i < save_data.size(); i++)
-  //   std::cout << save_data[i] << std::endl;
-
-  std::vector<long double> first;
-  for (int i = 0; i < column; i++)
-    {
-      first.push_back(save_data[i]);
-      std::cout << first[i] << std::endl;
-    }
+  std::cout << "row:" << row << "  &&  column:" << column << std::endl;
+  for (int i = 0; i < row; i++)
+      for (int j = 0; j < column; j++)
+	std::cout << "data[" << i << "]" << "[" << j << "]:" << data_base[i][j] << std::endl;
 }
+
