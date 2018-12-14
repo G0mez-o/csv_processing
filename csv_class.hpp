@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include "split.hpp"
+#include "csv_ostream.hpp"
 
 class csv_mat
 {
@@ -16,7 +17,10 @@ public:
   auto row();
   auto column();
   auto  value(int, int);
+  int num();
   void output();
+  void colout(int);
+  void rowout(int);
 };
 
 csv_mat::csv_mat()
@@ -39,11 +43,7 @@ auto csv_mat::name() { return filename; }
 auto csv_mat::row() { return rows; }
 auto csv_mat::column() { return columns; }
 auto csv_mat::value(int i, int j) { return data_base[i-1][j-1]; }
-
-void csv_mat::output()
-{
-  for (int i = 0; i < rows; i++)
-    for (int j = 0; j < columns; j++)
-      std::cout << "data[" << i+1 << "]" << "[" << j+1 << "]:" << data_base[i][j] << std::endl;
-  std::cout << "row: " << rows << "  &&  column: " << columns << std::endl;
-}
+int csv_mat::num() { return rows*columns; }
+void csv_mat::output() { return all_output(data_base, rows, columns); }
+void csv_mat::colout(int num) { return col_output(data_base, rows, num); }
+void csv_mat::rowout(int num) { return row_output(data_base, num, columns); }
